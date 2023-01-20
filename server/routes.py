@@ -1,3 +1,6 @@
+#Aleksey Kaptur work
+
+
 from . import app
 from flask import render_template
 
@@ -33,3 +36,11 @@ def about():
     return render_template('about.html')
 
 
+@app.route('/social', methods=['GET', 'POST'])
+def social():
+    return render_template('social.html')
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    return render_template('register.html')
