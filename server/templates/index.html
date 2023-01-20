@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Домашняя страница - streaming service{% endblock %}
+
+{% block content %}
+
+
+<div class="shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+<div class="px-4 py-5 my-5 text-center">
+    <svg xmlns="http://www.w3.org/2000/svg" width="63" height="72" fill="currentColor" class="bi bi-broadcast" viewBox="0 0 16 16">
+  <a href="/stream" ><path d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707zm2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 1 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708zm5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708zm2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707zM10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+    </svg></a>
+    <h1 class="display-5 fw-bold">Stream service</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">Стриминговый сервис, с посещением больше 100 000 человек в день. Он простой и быстрый, начнити стримить сегодня!</p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="/login"><button type="button" class="btn btn-primary btn-lg px-4 gap-3">>> Войти</button></a>
+          <a href="/translation"><button type="button" class="btn btn-outline-secondary btn-lg px-4">>> Трансляции</button></a>
+      </div>
+    </div>
+    </div>
+</div>
+</div>
+  </div><br><br><br>
+<div class="px-4 py-5 my-5 text-center">
+    <a href="/stream" ><svg xmlns="http://www.w3.org/2000/svg" width="63" height="72" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+  <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
+</svg></a>
+    <h1 class="display-5 fw-bold">Community</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">Более 10 000 стримиров стримят на площадке, регистрируйся!!!.</p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <a href="/about" ><button type="button" class="btn btn-warning ">О нас</button></a>
+          <a href="/stream" ><button type="button" class="btn btn-outline-secondary">Наши стримеры</button></a>
+      </div>
+    </div>
+  </div><br><br><br>
+<div class="px-4 py-5 my-5 text-center">
+    <div class="position-relative m-4">
+  <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="height: 1px;">
+    <div class="progress-bar" style="width: 75%"></div>
+  </div>
+  <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill" style="width: 2rem; height:2rem;">1</button>
+  <button type="button" class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-primary rounded-pill" style="width: 2rem; height:2rem;">2</button>
+  <button type="button" class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill" style="width: 2rem; height:2rem;">3</button>
+</div><br><br>
+    <h1 class="display-5 fw-bold">Начинайте стримить тут</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">Создавайте аккаунт прямо сейчас!!!</p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="/register"><button type="button" class="btn btn-primary btn-lg px-4 gap-3">>> Создать аккаунт</button></a>
+      </div>
+    </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+{% endblock %}
+
