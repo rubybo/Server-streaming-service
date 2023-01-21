@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+    <h1 class="h3 mb-3 fw-normal">Вход</h1><br><br>
+  <form action="" method="post">
+      {% for msg in get_flashed_messages() %}
+      <div class="alert alert-danger" role="alert">
+          {{ msg }}
+        </div>
+        {% endfor %}
+      {{ form.hidden_tag() }}
+    {{ form.username }}
+<br><br>
+    {{ form.password }}
+<br><br>
+    {{ form.submit }}
+  </form><br>
+    <a href="/register">Ещё не зарегистрировались?</a>
+</div>
+{% endblock %}
