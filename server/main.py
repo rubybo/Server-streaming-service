@@ -39,6 +39,12 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
 
 
+class Datauser(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+
+
 db.create_all()
 
 
@@ -130,7 +136,44 @@ def logout():
 @login_required
 def data(id):
     base = User.query.get(id)
-    return render_template('dashboard.html', base=base)
+    datauser = Datauser.query.get(id)
+    return render_template('dashboard.html', base=base, datauser=datauser)
+
+
+@app.route('/user/<int:id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit(id):
+    datauser = Datauser.query.get(id)
+    base = User.query.get(id)
+    if request.method == 'POST':
+        datauser.name = request.form['name']
+        datauser.description = request.form['description']
+        db.session.commit()
+        return redirect('/user/' + str(id))
+    return render_template('edit.html', datauser=datauser, base=base)
+
+
+@app.route('/user/<int:id>/add', methods=['GET', 'POST'])
+@login_required
+def add(id):
+    datauser = Datauser.query.get(id)
+    base = User.query.get(id)
+    if request.method == 'POST':
+        name = request.form['name']
+        description = request.form['description']
+        datauser = Datauser(name=name, description=description)
+        db.session.add(datauser)
+        db.session.commit()
+        return redirect('/user/' + str(id))
+    return render_template('add.html', datauser=datauser, base=base)
+
+
+@app.route('/profile/<int:id>')
+@login_required
+def profile(id):
+    base = User.query.get(id)
+    datauser = Datauser.query.get(id)
+    return render_template('profile.html', base=base, datauser=datauser)
 
 
 

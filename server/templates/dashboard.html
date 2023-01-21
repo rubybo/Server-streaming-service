@@ -1,7 +1,20 @@
-{% extends 'base.html' %}
+{% extends 'user.html' %}
 
 {% block title %}Пользователь {{ base.username }}{% endblock %}
 
 {% block content %}
+<br><br>
+<div class="container">
+    <h1 class="h3 mb-3 fw-normal">Имя пользователя: {{ base.username }}</h1><br><br>
+    <div class="row">
+        <div class="col-8">
+            <h3>Описание профиля</h3>
+            <br>
+            <p>Имя: {{ datauser.name }}</p>
+            <p>Описание: {{ datauser.description }}</p>
+            <a href="/user/{{ base.id }}/add" class="btn btn-danger">Создать описание</a>
 
+</div>
+    </div>
+</div>
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'socialbase.html' %}
+
+{% block title %}Профиль: {{ base.username }}{% endblock %}
+
+{% block content %}
+<div class="container"><br>
+    <h1 class="h3 mb-3 fw-normal">Профиль: {{ base.username }}</h1><br><br>
+    <div class="row">
+        <div class="col-8">
+            <h3>Описание профиля</h3>
+            <p>Имя: {{ datauser.name }}</p>
+            <p>Описание: {{ datauser.description }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
