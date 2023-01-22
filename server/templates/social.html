@@ -1,9 +1,23 @@
-{% extends 'base.html' %}
+{% extends 'socialbase.html' %}
 
 
 {% block title %}Сообщество{% endblock %}
 
 
 {% block content %}
-hello from social
+<div class="container mt-5"><br>
+    <h2>Рекомендации</h2><br><br>
+   {% for post in message %}
+    <div class="alert alert-info">
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.content }}</p>
+    <p><b>Дата публикации {{ post.date_posted.date() }}</b></p>
+        <p><b>Автор: {{ post.username }}</b></p>
+
+    </div>
+
+
+    {% endfor %}
+</div>
+
 {% endblock %}

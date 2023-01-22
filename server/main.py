@@ -8,7 +8,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from . import bcrypt
 from wtforms.validators import DataRequired, Length
 from . import db
-from flask_login import UserMixin, login_user, logout_user, login_required, LoginManager
+from flask_login import UserMixin, login_user, logout_user, login_required, LoginManager, current_user
 from datetime import datetime
 
 
@@ -30,6 +30,7 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
+    username = db.Column(db.String(100), nullable=False, default="Anonimus")
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
 
@@ -41,8 +42,8 @@ class User(db.Model, UserMixin):
 
 class Datauser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.String(200), nullable=False)
-    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(200), nullable=False, default="Нету описания")
+    name = db.Column(db.String(100), nullable=False, default="Неуказано имя")
 
 
 db.create_all()
@@ -96,7 +97,23 @@ def about():
 @app.route('/social', methods=['GET', 'POST'])
 @login_required
 def social():
-    return render_template('social.html')
+    message = Message.query.order_by(Message.date_posted.desc()).all()
+    return render_template('social.html', message=message)
+
+
+@app.route('/addpost', methods=['GET', 'POST'])
+@login_required
+def addpost():
+    man = User.query.get(current_user.id)
+    if request.method == 'POST':
+        if request.method == 'POST':
+            title = request.form['title']
+            content = request.form['content']
+            message = Message(title=title, content=content, username=man.username)
+            db.session.add(message)
+            db.session.commit()
+            return redirect('/social')
+    return render_template('addpost.html', man=man)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -174,8 +191,6 @@ def profile(id):
     base = User.query.get(id)
     datauser = Datauser.query.get(id)
     return render_template('profile.html', base=base, datauser=datauser)
-
-
 
 
 
