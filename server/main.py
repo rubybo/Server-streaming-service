@@ -2,7 +2,7 @@
 
 
 from . import app
-from flask import render_template, request, redirect, flash
+from flask import redirect, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from . import bcrypt
@@ -10,6 +10,20 @@ from wtforms.validators import DataRequired, Length
 from . import db
 from flask_login import UserMixin, login_user, logout_user, login_required, LoginManager, current_user
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+from flask import render_template, request, abort
+from twilio.jwt.access_token import AccessToken
+from twilio.jwt.access_token.grants import VideoGrant, ChatGrant
+from twilio.rest import Client
+from twilio.base.exceptions import TwilioRestException
+
+
+load_dotenv()
+twilio_account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+twilio_api_key_sid = os.environ.get('TWILIO_API_KEY_SID')
+twilio_api_key_secret = os.environ.get('TWILIO_API_KEY_SECRET')
+twilio_client = Client(twilio_api_key_sid, twilio_api_key_secret, twilio_account_sid)
 
 
 login_manager = LoginManager(app)
@@ -49,6 +63,15 @@ class Datauser(db.Model):
 db.create_all()
 
 
+def get_chatroom(name):
+    for conversation in twilio_client.conversations.conversations.stream():
+        if conversation.friendly_name == name:
+            return conversation
+
+    # a conversation with the given name does not exist ==> create a new one
+    return twilio_client.conversations.conversations.create(
+        friendly_name=name)
+
 
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=3, max=25)], render_kw={"placeholder": "Имя пользователя", "class":"form-control"})
@@ -72,6 +95,29 @@ def index():
 @login_required
 def stream():
     return render_template('stream.html')
+
+
+@app.route('/strget', methods=['POST'])
+def serverstream():
+    username = request.get_json(force=True).get('username')
+    if not username:
+        abort(401)
+
+    conversation = get_chatroom('My Room')
+    try:
+        conversation.participants.create(identity=username)
+    except TwilioRestException as exc:
+        # do not error if the user is already in the conversation
+        if exc.status != 409:
+            raise
+
+    token = AccessToken(twilio_account_sid, twilio_api_key_sid,
+                        twilio_api_key_secret, identity=username)
+    token.add_grant(VideoGrant(room='My Room'))
+    token.add_grant(ChatGrant(service_sid=conversation.chat_service_sid))
+
+    return {'token': token.to_jwt().decode(),
+            'conversation_sid': conversation.sid}
 
 
 @app.errorhandler(404)
@@ -130,7 +176,7 @@ def register():
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def login():
+def signin():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
